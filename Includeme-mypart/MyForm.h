@@ -439,6 +439,9 @@ private: System::Void Button1_Click(System::Object^ sender, System::EventArgs^ e
 		con->Open();
 		dr = cmd->ExecuteReader();
 		MessageBox::Show("student info saved");
+		textBox9->Text = "";
+		textBox10->Text = "";
+		textBox7->Text = "";
 	}
 	catch (Exception ^ ex)
 	{
@@ -465,6 +468,9 @@ private: System::Void Button1_Click(System::Object^ sender, System::EventArgs^ e
 				 con->Open();
 				 dr = cmd->ExecuteReader();
 				 MessageBox::Show("teacher info saved");
+				  textBox9->Text="";
+				  textBox10->Text="";
+				  textBox7->Text="";
 			 }
 			 catch (Exception ^ ex)
 			 {
@@ -567,6 +573,7 @@ private: System::Void Button2_Click(System::Object^ sender, System::EventArgs^ e
 			}
 
 
+
 		}
 		
 	}
@@ -576,6 +583,9 @@ private: System::Void Button2_Click(System::Object^ sender, System::EventArgs^ e
 
 
 	}
+	 textBox15->Text="";
+	 textBox16->Text="";
+	 textBox13->Text="";
 
 	
 

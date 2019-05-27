@@ -8,6 +8,8 @@ namespace Includeme {
 	using namespace System::Windows::Forms;
 	using namespace System::Data;
 	using namespace System::Drawing;
+	//to connect to database
+	using namespace MySql::Data::MySqlClient;
 
 	/// <summary>
 	/// Summary for MyForm14
@@ -44,12 +46,18 @@ namespace Includeme {
 	private: System::Windows::Forms::Button^ button2;
 	private: System::Windows::Forms::PictureBox^ pictureBox1;
 	private: System::Windows::Forms::TextBox^ textBox1;
+	private: System::Windows::Forms::DataGridView^ dataGridView1;
+
+	private: System::Windows::Forms::BindingSource^ bindingSource1;
+	private: System::Windows::Forms::Button^ button1;
+
+	private: System::ComponentModel::IContainer^ components;
 
 	private:
 		/// <summary>
 		/// Required designer variable.
 		/// </summary>
-		System::ComponentModel::Container ^components;
+
 
 #pragma region Windows Form Designer generated code
 		/// <summary>
@@ -58,8 +66,11 @@ namespace Includeme {
 		/// </summary>
 		void InitializeComponent(void)
 		{
+			this->components = (gcnew System::ComponentModel::Container());
 			System::ComponentModel::ComponentResourceManager^ resources = (gcnew System::ComponentModel::ComponentResourceManager(MyForm14::typeid));
 			this->panel3 = (gcnew System::Windows::Forms::Panel());
+			this->button1 = (gcnew System::Windows::Forms::Button());
+			this->dataGridView1 = (gcnew System::Windows::Forms::DataGridView());
 			this->textBox4 = (gcnew System::Windows::Forms::TextBox());
 			this->panel2 = (gcnew System::Windows::Forms::Panel());
 			this->textBox3 = (gcnew System::Windows::Forms::TextBox());
@@ -68,20 +79,54 @@ namespace Includeme {
 			this->button2 = (gcnew System::Windows::Forms::Button());
 			this->pictureBox1 = (gcnew System::Windows::Forms::PictureBox());
 			this->textBox1 = (gcnew System::Windows::Forms::TextBox());
+			this->bindingSource1 = (gcnew System::Windows::Forms::BindingSource(this->components));
 			this->panel3->SuspendLayout();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->dataGridView1))->BeginInit();
 			this->panel2->SuspendLayout();
 			this->panel1->SuspendLayout();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox1))->BeginInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->bindingSource1))->BeginInit();
 			this->SuspendLayout();
 			// 
 			// panel3
 			// 
 			this->panel3->BackColor = System::Drawing::Color::GhostWhite;
+			this->panel3->Controls->Add(this->button1);
+			this->panel3->Controls->Add(this->dataGridView1);
 			this->panel3->Controls->Add(this->textBox4);
-			this->panel3->Location = System::Drawing::Point(629, 269);
+			this->panel3->Location = System::Drawing::Point(558, 270);
 			this->panel3->Name = L"panel3";
-			this->panel3->Size = System::Drawing::Size(349, 326);
+			this->panel3->Size = System::Drawing::Size(419, 326);
 			this->panel3->TabIndex = 9;
+			this->panel3->Paint += gcnew System::Windows::Forms::PaintEventHandler(this, &MyForm14::Panel3_Paint);
+			// 
+			// button1
+			// 
+			this->button1->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(192)),
+				static_cast<System::Int32>(static_cast<System::Byte>(0)));
+			this->button1->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 14, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(0)));
+			this->button1->ForeColor = System::Drawing::SystemColors::ButtonHighlight;
+			this->button1->Location = System::Drawing::Point(95, 268);
+			this->button1->Name = L"button1";
+			this->button1->Size = System::Drawing::Size(258, 55);
+			this->button1->TabIndex = 5;
+			this->button1->Text = L"Check notice";
+			this->button1->UseVisualStyleBackColor = false;
+			this->button1->Click += gcnew System::EventHandler(this, &MyForm14::Button1_Click);
+			// 
+			// dataGridView1
+			// 
+			this->dataGridView1->BackgroundColor = System::Drawing::Color::GhostWhite;
+			this->dataGridView1->BorderStyle = System::Windows::Forms::BorderStyle::Fixed3D;
+			this->dataGridView1->CellBorderStyle = System::Windows::Forms::DataGridViewCellBorderStyle::Raised;
+			this->dataGridView1->ColumnHeadersHeightSizeMode = System::Windows::Forms::DataGridViewColumnHeadersHeightSizeMode::AutoSize;
+			this->dataGridView1->Location = System::Drawing::Point(33, 42);
+			this->dataGridView1->Name = L"dataGridView1";
+			this->dataGridView1->RowTemplate->Height = 28;
+			this->dataGridView1->Size = System::Drawing::Size(358, 222);
+			this->dataGridView1->TabIndex = 4;
+			this->dataGridView1->CellContentClick += gcnew System::Windows::Forms::DataGridViewCellEventHandler(this, &MyForm14::DataGridView1_CellContentClick);
 			// 
 			// textBox4
 			// 
@@ -89,7 +134,7 @@ namespace Includeme {
 			this->textBox4->BorderStyle = System::Windows::Forms::BorderStyle::None;
 			this->textBox4->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 16, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->textBox4->Location = System::Drawing::Point(116, 3);
+			this->textBox4->Location = System::Drawing::Point(168, 3);
 			this->textBox4->Name = L"textBox4";
 			this->textBox4->Size = System::Drawing::Size(100, 37);
 			this->textBox4->TabIndex = 3;
@@ -100,9 +145,9 @@ namespace Includeme {
 			// 
 			this->panel2->BackColor = System::Drawing::Color::GhostWhite;
 			this->panel2->Controls->Add(this->textBox3);
-			this->panel2->Location = System::Drawing::Point(326, 268);
+			this->panel2->Location = System::Drawing::Point(228, 270);
 			this->panel2->Name = L"panel2";
-			this->panel2->Size = System::Drawing::Size(303, 329);
+			this->panel2->Size = System::Drawing::Size(330, 329);
 			this->panel2->TabIndex = 8;
 			// 
 			// textBox3
@@ -123,9 +168,9 @@ namespace Includeme {
 			this->panel1->BackColor = System::Drawing::Color::GhostWhite;
 			this->panel1->Controls->Add(this->textBox2);
 			this->panel1->Controls->Add(this->button2);
-			this->panel1->Location = System::Drawing::Point(-5, 268);
+			this->panel1->Location = System::Drawing::Point(-5, 270);
 			this->panel1->Name = L"panel1";
-			this->panel1->Size = System::Drawing::Size(331, 333);
+			this->panel1->Size = System::Drawing::Size(235, 333);
 			this->panel1->TabIndex = 7;
 			// 
 			// textBox2
@@ -134,7 +179,7 @@ namespace Includeme {
 			this->textBox2->BorderStyle = System::Windows::Forms::BorderStyle::None;
 			this->textBox2->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 16, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->textBox2->Location = System::Drawing::Point(53, 3);
+			this->textBox2->Location = System::Drawing::Point(3, 1);
 			this->textBox2->Name = L"textBox2";
 			this->textBox2->Size = System::Drawing::Size(227, 37);
 			this->textBox2->TabIndex = 2;
@@ -143,14 +188,17 @@ namespace Includeme {
 			// 
 			// button2
 			// 
+			this->button2->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(192)),
+				static_cast<System::Int32>(static_cast<System::Byte>(0)));
 			this->button2->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 14, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->button2->Location = System::Drawing::Point(42, 129);
+			this->button2->ForeColor = System::Drawing::SystemColors::ButtonHighlight;
+			this->button2->Location = System::Drawing::Point(17, 123);
 			this->button2->Name = L"button2";
-			this->button2->Size = System::Drawing::Size(258, 81);
+			this->button2->Size = System::Drawing::Size(185, 81);
 			this->button2->TabIndex = 1;
 			this->button2->Text = L"Check Attendance";
-			this->button2->UseVisualStyleBackColor = true;
+			this->button2->UseVisualStyleBackColor = false;
 			this->button2->Click += gcnew System::EventHandler(this, &MyForm14::Button2_Click);
 			// 
 			// pictureBox1
@@ -191,11 +239,13 @@ namespace Includeme {
 			this->Text = L"Student Login";
 			this->panel3->ResumeLayout(false);
 			this->panel3->PerformLayout();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->dataGridView1))->EndInit();
 			this->panel2->ResumeLayout(false);
 			this->panel2->PerformLayout();
 			this->panel1->ResumeLayout(false);
 			this->panel1->PerformLayout();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox1))->EndInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->bindingSource1))->EndInit();
 			this->ResumeLayout(false);
 			this->PerformLayout();
 
@@ -203,5 +253,24 @@ namespace Includeme {
 #pragma endregion
 	private: System::Void Button2_Click(System::Object^ sender, System::EventArgs^ e) {
 	}
+			 // aba yo bata chai aafai aauney banauney hai notice
+private: System::Void DataGridView1_CellContentClick(System::Object^ sender, System::Windows::Forms::DataGridViewCellEventArgs^ e) {
+
+
+}
+private: System::Void TextBox5_TextChanged(System::Object^ sender, System::EventArgs^ e) {
+}
+private: System::Void Button1_Click(System::Object^ sender, System::EventArgs^ e) {
+	String^ constr = "Server=127.0.0.1;Uid=root;Pwd=;Database=includemecpp1";
+	MySqlConnection^ con = gcnew MySqlConnection(constr);
+	MySqlDataAdapter^ da = gcnew MySqlDataAdapter("SELECT * FROM `notice_teacher`", con);
+	DataTable^ dt = gcnew DataTable();
+	da->Fill(dt);
+	bindingSource1->DataSource = dt;
+	dataGridView1->DataSource = bindingSource1;
+
+}
+private: System::Void Panel3_Paint(System::Object^ sender, System::Windows::Forms::PaintEventArgs^ e) {
+}
 };
 }
